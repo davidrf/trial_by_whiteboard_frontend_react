@@ -1,0 +1,24 @@
+{
+  "question": {
+    "body": "great question great skill",
+    "id": 1,
+    "title": "my first question",
+    "link": "http://localhost:3000/questions/1",
+    "user": {
+      "id": 1,
+      "username": "dad"
+    },
+    "answers": [
+      {
+        "body": "do more",
+        "id": 1,
+        "link": "http://localhost:3000/answers/1"
+      },
+      {
+        "body": "do less",
+        "id": 2,
+        "link": "http://localhost:3000/answers/2"
+      }
+    ]
+  }
+}
