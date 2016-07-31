@@ -1,9 +1,9 @@
 import React from 'react';
-import Question from '../Question';
+import QuestionTile from '../QuestionTile';
 
 const Questions = ({ questions }) => {
   let questionElements = questions.map(question => {
-    return <Question key={question.id} {...question} />;
+    return <QuestionTile key={question.id} {...question} />;
   });
 
   return (

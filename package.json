@@ -11,7 +11,7 @@
     "start": "node_modules/.bin/webpack-dev-server",
     "test": "NODE_ENV=test node_modules/.bin/karma start",
     "test:single-run": "npm run test -- --single-run",
-    "production": "NODE_ENV=production node_modules/.bin/webpack"
+    "heroku-postbuild": "NODE_ENV=production node_modules/.bin/webpack"
   },
   "author": "",
   "license": "ISC",
@@ -41,10 +41,12 @@
     "postcss-simple-vars": "^3.0.0",
     "react-addons-test-utils": "^15.0.1",
     "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
+    "express": "^4.14.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
@@ -52,7 +54,6 @@
     "react-router-redux": "^4.0.5",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "webpack": "^1.13.1",
     "whatwg-fetch": "^1.0.0"
   }
 }
