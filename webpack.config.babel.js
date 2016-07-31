@@ -14,7 +14,8 @@ let commonConfiguration = {
   },
   output: {
     path: './build',
-    filename: "[name]-[hash].js"
+    filename: "[name]-[hash].js",
+    publicPath: '/'
   },
   module: {
     loaders: [

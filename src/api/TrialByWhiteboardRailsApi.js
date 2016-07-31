@@ -1,8 +1,8 @@
-let trialByWhiteboardDomain;
+let trialByWhiteBoardApiDomain;
 if (process.env.NODE_ENV === 'production') {
-  trialByWhiteboardDomain = 'https://davidrf.github.io/';
+  trialByWhiteBoardApiDomain = 'https://trialbywhiteboardrailsapi.herokuapp.com';
 } else {
-  trialByWhiteboardDomain = 'http://localhost:3000';
+  trialByWhiteBoardApiDomain = 'http://localhost:3000';
 }
 
 let acceptHeaderV1 = {
@@ -45,7 +45,7 @@ let normalizeQuestions = body => {
 
 class TrialByWhiteboardRailsApi {
   static fetchQuestion(questionId) {
-    return fetch(`${trialByWhiteboardDomain}/questions/${questionId}`, {
+    return fetch(`${trialByWhiteBoardApiDomain}/questions/${questionId}`, {
       headers: acceptHeaderV1
     })
     .then(response => {
@@ -61,7 +61,7 @@ class TrialByWhiteboardRailsApi {
   }
 
   static fetchQuestions() {
-    return fetch(`${trialByWhiteboardDomain}/questions`, {
+    return fetch(`${trialByWhiteBoardApiDomain}/questions`, {
       headers: acceptHeaderV1
     })
     .then(response => {
