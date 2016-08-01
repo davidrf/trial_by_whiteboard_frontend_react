@@ -140,6 +140,36 @@ class TrialByWhiteboardRailsApi {
     })
     .then(body => body);
   }
+
+  static createAuthenticationToken({ password, username }) {
+    let body = JSON.stringify({
+      user: {
+        password,
+        username
+      }
+    });
+    return fetch(`${trialByWhiteBoardApiDomain}/authentication_tokens`, {
+      method: 'POST',
+      headers: acceptContentTypeHeadersV1,
+      body
+    })
+    .then(response => {
+      let { ok, status, statusText } = response;
+      if (ok || status === 422) {
+        return response.json();
+      } else {
+        let error = new Error(`${status} (${statusText})`);
+        throw(error);
+      }
+    })
+    .then(body => {
+      if (body.user) {
+        return body;
+      } else {
+        throw new SubmissionError(body);
+      }
+    });
+  }
 }
 
 export default TrialByWhiteboardRailsApi;

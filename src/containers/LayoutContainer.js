@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Layout from '../components/Layout';
-import { closeSignUpModal, openSignUpModal } from '../reducers/modals';
+import {
+  closeSignInModal,
+  closeSignUpModal,
+  openSignInModal,
+  openSignUpModal
+} from '../reducers/modals';
 import { fetchUser, signOutUser } from '../reducers/users';
 
 class LayoutContainer extends Component {
@@ -19,10 +24,13 @@ class LayoutContainer extends Component {
   render() {
     let {
       children,
+      closeSignInModal,
       closeSignUpModal,
       currentUserId,
-      openSignUpModal,
+      modalsSignInIsOpen,
       modalsSignUpIsOpen,
+      openSignInModal,
+      openSignUpModal,
       signOutUser,
       usersById
     } = this.props;
@@ -31,9 +39,12 @@ class LayoutContainer extends Component {
 
     return (
       <Layout
+        closeSignInModal={closeSignInModal}
         closeSignUpModal={closeSignUpModal}
         currentUser={currentUser}
+        modalsSignInIsOpen={modalsSignInIsOpen}
         modalsSignUpIsOpen={modalsSignUpIsOpen}
+        openSignInModal={openSignInModal}
         openSignUpModal={openSignUpModal}
         signOutUser={signOutUser}
       >
@@ -45,17 +56,24 @@ class LayoutContainer extends Component {
 
 let mapStateToProps = ({ users, modals }) => ({
   currentUserId: users.currentUserId,
+  modalsSignInIsOpen: modals.signInIsOpen,
   modalsSignUpIsOpen: modals.signUpIsOpen,
   usersById: users.byId
 });
 
 let mapDispatchToProps = dispatch => {
   return {
+    closeSignInModal() {
+      dispatch(closeSignInModal());
+    },
     closeSignUpModal() {
       dispatch(closeSignUpModal());
     },
     fetchUser(id) {
       dispatch(fetchUser(id));
+    },
+    openSignInModal() {
+      dispatch(openSignInModal());
     },
     openSignUpModal() {
       dispatch(openSignUpModal());
