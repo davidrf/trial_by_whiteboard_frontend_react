@@ -2,15 +2,18 @@ import React from 'react';
 import Modal from 'react-modal';
 import styles from './styles.css';
 import SignUpFormContainer from '../../containers/SignUpFormContainer';
+import SignInFormContainer from '../../containers/SignInFormContainer';
 
 const Layout = ({
   children,
+  closeSignInModal,
   closeSignUpModal,
   currentUser,
+  modalsSignInIsOpen,
   modalsSignUpIsOpen,
+  openSignInModal,
   openSignUpModal,
-  signOutUser,
-  signUpModalIsOpen
+  signOutUser
 }) => {
   let authenticationLinks;
   if (currentUser) {
@@ -24,6 +27,7 @@ const Layout = ({
     authenticationLinks = (
       <ul>
         <li onClick={openSignUpModal}>Sign Up</li>
+        <li onClick={openSignInModal}>Sign In</li>
       </ul>
     );
   }
@@ -36,6 +40,12 @@ const Layout = ({
         onRequestClose={closeSignUpModal}
       >
         <SignUpFormContainer />
+      </Modal>
+      <Modal
+        isOpen={modalsSignInIsOpen}
+        onRequestClose={closeSignInModal}
+      >
+        <SignInFormContainer />
       </Modal>
       {children}
     </div>

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import TrialByWhiteboardRailsApi from '../api/TrialByWhiteboardRailsApi';
-import SignUpForm from '../components/SignUpForm';
+import SignInForm from '../components/SignInForm';
 import { signInUser } from '../reducers/users';
 import setLocalStorage from '../utilities/setLocalStorage';
 
@@ -13,19 +13,13 @@ let validatePresenceOf = (field, values, errors) => {
   }
 };
 
-let fields = ['email', 'username', 'password', 'passwordConfirmation'];
+let fields = ['username', 'password'];
 
 let validate = values => {
   const errors = {};
   fields.forEach(field => {
     validatePresenceOf(field, values, errors);
   });
-
-  let passwordAndPasswordConfirmationPresent = values.password && values.passwordConfirmation;
-  let passwordAndPasswordConfirmationDoNotMatch = values.password !== values.passwordConfirmation;
-  if (passwordAndPasswordConfirmationPresent && passwordAndPasswordConfirmationDoNotMatch) {
-    errors.passwordConfirmation = "confirmation doesn't match";
-  }
 
   return errors;
 };
@@ -38,6 +32,6 @@ let onSubmitSuccess = (result, dispatch) => {
 export default reduxForm({
   form: 'sign-up',
   validate,
-  onSubmit: TrialByWhiteboardRailsApi.createUser,
+  onSubmit: TrialByWhiteboardRailsApi.createAuthenticationToken,
   onSubmitSuccess
-})(SignUpForm);
+})(SignInForm);
