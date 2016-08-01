@@ -2,10 +2,11 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { signInUser } from '../reducers/users';
-import { closeSignUpModal } from '../reducers/modals';
-import SignUpForm from '../components/SignUpForm';
 import TrialByWhiteboardRailsApi from '../api/TrialByWhiteboardRailsApi';
+import SignUpForm from '../components/SignUpForm';
+import { closeSignUpModal } from '../reducers/modals';
+import { signInUser } from '../reducers/users';
+import setLocalStorage from '../utilities/setLocalStorage';
 
 let validatePresenceOf = (field, values, errors) => {
   if (!values[field]) {
@@ -32,11 +33,8 @@ let validate = values => {
 };
 
 let onSubmitSuccess = (result, dispatch) => {
-  let { id, authenticationToken, authenticationTokenExpiresAt } = result.user;
   dispatch(signInUser(result));
-  localStorage.id = id;
-  localStorage.authenticationToken = authenticationToken;
-  localStorage.authenticationTokenExpiresAt = authenticationTokenExpiresAt;
+  setLocalStorage(result.user);
 };
 
 export default reduxForm({

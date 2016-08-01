@@ -9,24 +9,28 @@ const Layout = ({
   currentUser,
   modalsSignUpIsOpen,
   openSignUpModal,
+  signOutUser,
   signUpModalIsOpen
 }) => {
   let authenticationLinks;
   if (currentUser) {
     authenticationLinks = (
-      <li>{currentUser.username}</li>
+      <ul>
+        <li>{currentUser.username}</li>
+        <li onClick={signOutUser}>Sign Out</li>
+      </ul>
     )
   } else {
     authenticationLinks = (
-      <li onClick={openSignUpModal}>Sign Up</li>
+      <ul>
+        <li onClick={openSignUpModal}>Sign Up</li>
+      </ul>
     );
   }
 
   return (
     <div className={styles.root}>
-      <ul>
-        {authenticationLinks}
-      </ul>
+      {authenticationLinks}
       <Modal
         isOpen={modalsSignUpIsOpen}
         onRequestClose={closeSignUpModal}

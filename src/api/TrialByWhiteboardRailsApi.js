@@ -122,9 +122,9 @@ class TrialByWhiteboardRailsApi {
   static fetchUser(id, authenticationToken) {
     let headers;
     if (authenticationToken) {
-      headers = acceptHeaderV1;
-    } else {
       headers = authorizationHeadersV1(authenticationToken);
+    } else {
+      headers = acceptHeaderV1;
     }
     return fetch(`${trialByWhiteBoardApiDomain}/users/${id}`, {
       headers

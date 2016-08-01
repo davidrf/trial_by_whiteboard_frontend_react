@@ -10,6 +10,7 @@ const FETCH_USER_REQUEST_SUCCESS = 'FETCH_USER_REQUEST_SUCCESS';
 const FETCH_USER_REQUEST_FAILURE = 'FETCH_USER_REQUEST_FAILURE';
 
 const SIGN_IN_USER = 'SIGN_IN_USER';
+const SIGN_OUT_USER = 'SIGN_OUT_USER';
 
 let fetchUserRequest = () => ({
   type: FETCH_USER_REQUEST
@@ -23,8 +24,8 @@ let fetchUserRequestFailure = () => ({
 });
 let fetchUser = id => (dispatch, getState) => {
   let { users: { byId, currentUserId } } = getState();
-  let authenticationToken = byId[currentUserId].authenticationToken;
-  dispatch(fetchUserRequest());
+  let currentUser = byId[currentUserId];
+  let authenticationToken = currentUser && currentUser.authenticationToken;
   return TrialByWhiteboardRailsApi.fetchUser(id, authenticationToken)
     .then(
       data => { dispatch(fetchUserRequestSuccess(data)) },
@@ -37,8 +38,14 @@ let signInUser = ({ user }) => ({
   user
 });
 
+let signOutUser = () => ({
+  type: SIGN_OUT_USER
+});
+
 let currentUserId = (state = null, action) => {
   switch (action.type) {
+    case SIGN_OUT_USER:
+      return null;
     case SIGN_IN_USER:
       return action.user.id;
     default:
@@ -89,5 +96,6 @@ export {
   users as default,
   fetchUser,
   signInUser,
+  signOutUser,
   SIGN_IN_USER
 };

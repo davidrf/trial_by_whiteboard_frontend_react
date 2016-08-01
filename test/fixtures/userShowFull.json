@@ -1,0 +1,10 @@
+{
+  "user": {
+    "id": 9,
+    "username": "dad",
+    "authenticationToken": "FiWnekyRhwMCMJgCNUjZUGRo",
+    "authenticationTokenExpiresAt": "2016-08-08T18:07:37.763Z",
+    "email": "dad@dad.com",
+    "questions": []
+  }
+}

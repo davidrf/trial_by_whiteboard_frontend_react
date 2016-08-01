@@ -3,18 +3,30 @@ import { shallow, mount } from 'enzyme';
 import 'jasmine-ajax';
 import jasmineEnzyme from 'jasmine-enzyme';
 import React from 'react';
-import createResponseFromFixture from './support/createResponseFromFixture';
+import {
+  createResponseFromFixture,
+  createResponseWithNoBody
+} from './support/createResponses';
 
 Object.assign(global, {
   jasmineEnzyme,
   mount,
   React,
   shallow,
-  createResponseFromFixture
+  createResponseFromFixture,
+  createResponseWithNoBody
+});
+
+beforeAll(() => {
+  localStorage.clear();
 });
 
 beforeEach(() => {
   jasmineEnzyme();
+});
+
+afterEach(() => {
+  localStorage.clear();
 });
 
 // require all js files that end with Spec.js or Spec.jsx in the test folder
