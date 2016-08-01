@@ -66,6 +66,15 @@ describe('user signs up', () => {
     setTimeout(() => {
       expect(wrapper.text()).not.toMatch('Sign Up');
       expect(wrapper.text()).toMatch('dad');
+      let userInfoFromLocalStorage = JSON.parse(localStorage.trialByWhiteboardReact);
+      let {
+        id,
+        authenticationToken,
+        authenticationTokenExpiresAt
+      } = userInfoFromLocalStorage;
+      expect(id).toBe(9);
+      expect(authenticationToken).toBe('VhS5ebYtmMV95BaUsQsBm84s');
+      expect(authenticationTokenExpiresAt).toBe('2016-08-08T04:11:06.242Z');
       done();
     }, 0);
   });
