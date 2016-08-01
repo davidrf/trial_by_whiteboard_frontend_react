@@ -1,3 +1,5 @@
+import { SubmissionError } from 'redux-form';
+
 let trialByWhiteBoardApiDomain;
 if (process.env.NODE_ENV === 'production') {
   trialByWhiteBoardApiDomain = 'https://trialbywhiteboardrailsapi.herokuapp.com';
@@ -7,6 +9,16 @@ if (process.env.NODE_ENV === 'production') {
 
 let acceptHeaderV1 = {
   'Accept': 'application/vnd.trialbywhiteboard.herokuapp.com; version=1'
+};
+
+let acceptContentTypeHeadersV1 = Object.assign({}, acceptHeaderV1, {
+  'Content-Type': 'application/json'
+});
+
+let authorizationHeadersV1 = authenticationToken => {
+  return Object.assign({}, acceptHeaderV1, {
+    'Authorization': `Token token=${authenticationToken}`
+  });
 };
 
 let normalizeQuestion = ({ question }) => {
@@ -44,6 +56,37 @@ let normalizeQuestions = body => {
 }
 
 class TrialByWhiteboardRailsApi {
+  static createUser({ email, password, username}) {
+    let body = JSON.stringify({
+      user: {
+        email,
+        password,
+        username
+      }
+    });
+    return fetch(`${trialByWhiteBoardApiDomain}/users`, {
+      method: 'POST',
+      headers: acceptContentTypeHeadersV1,
+      body
+    })
+    .then(response => {
+      let { ok, status, statusText } = response;
+      if (ok || status === 422) {
+        return response.json();
+      } else {
+        let error = new Error(`${status} (${statusText})`);
+        throw(error);
+      }
+    })
+    .then(body => {
+      if (body.user) {
+        return body;
+      } else {
+        throw new SubmissionError(body);
+      }
+    });
+  }
+
   static fetchQuestion(questionId) {
     return fetch(`${trialByWhiteBoardApiDomain}/questions/${questionId}`, {
       headers: acceptHeaderV1
@@ -74,6 +117,28 @@ class TrialByWhiteboardRailsApi {
       }
     })
     .then(body => normalizeQuestions(body));
+  }
+
+  static fetchUser(id, authenticationToken) {
+    let headers;
+    if (authenticationToken) {
+      headers = acceptHeaderV1;
+    } else {
+      headers = authorizationHeadersV1(authenticationToken);
+    }
+    return fetch(`${trialByWhiteBoardApiDomain}/users/${id}`, {
+      headers
+    })
+    .then(response => {
+      let { ok, status, statusText } = response;
+      if (ok) {
+        return response.json();
+      } else {
+        let error = new Error(`${status} (${statusText})`);
+        throw(error);
+      }
+    })
+    .then(body => body);
   }
 }
 
