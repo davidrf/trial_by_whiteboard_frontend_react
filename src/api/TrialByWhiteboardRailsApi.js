@@ -21,6 +21,12 @@ let authorizationHeadersV1 = authenticationToken => {
   });
 };
 
+let authorizationContentTypeHeadersV1 = authenticationToken => {
+  return Object.assign({}, authorizationHeadersV1(authenticationToken), {
+    'Content-Type': 'application/json'
+  });
+};
+
 let normalizeQuestion = ({ question }) => {
   return {
     answers: question.answers,
@@ -165,6 +171,36 @@ class TrialByWhiteboardRailsApi {
     .then(body => {
       if (body.user) {
         return body;
+      } else {
+        throw new SubmissionError(body);
+      }
+    });
+  }
+
+  static createQuestion({ authenticationToken, body, title }) {
+    let requestBody = JSON.stringify({
+      question: {
+        body,
+        title
+      }
+    });
+    return fetch(`${trialByWhiteBoardApiDomain}/questions`, {
+      method: 'POST',
+      headers: authorizationContentTypeHeadersV1(authenticationToken),
+      body: requestBody
+    })
+    .then(response => {
+      let { ok, status, statusText } = response;
+      if (ok || status === 422) {
+        return response.json();
+      } else {
+        let error = new Error(`${status} (${statusText})`);
+        throw error;
+      }
+    })
+    .then(body => {
+      if (body.question) {
+        return normalizeQuestion(body);
       } else {
         throw new SubmissionError(body);
       }

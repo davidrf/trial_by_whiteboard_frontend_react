@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import {
+  CREATE_QUESTION_REQUEST_SUCCESS,
   FETCH_QUESTION_REQUEST_SUCCESS,
   FETCH_QUESTIONS_REQUEST_SUCCESS
 } from './questions';
@@ -55,6 +56,7 @@ let currentUserId = (state = null, action) => {
 
 let byId = (state = {}, action) => {
   switch (action.type) {
+    case CREATE_QUESTION_REQUEST_SUCCESS:
     case FETCH_QUESTION_REQUEST_SUCCESS:
     case FETCH_USER_REQUEST_SUCCESS:
     case SIGN_IN_USER:

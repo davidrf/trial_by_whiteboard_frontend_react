@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { SubmissionError } from 'redux-form';
 import TrialByWhiteboardRailsApi from '../api/TrialByWhiteboardRailsApi';
 
 const FETCH_QUESTION_REQUEST = 'FETCH_QUESTION_REQUEST';
@@ -8,6 +9,8 @@ const FETCH_QUESTION_REQUEST_FAILURE = 'FETCH_QUESTION_REQUEST_FAILURE';
 const FETCH_QUESTIONS_REQUEST = 'FETCH_QUESTIONS_REQUEST';
 const FETCH_QUESTIONS_REQUEST_SUCCESS = 'FETCH_QUESTIONS_REQUEST_SUCCESS';
 const FETCH_QUESTIONS_REQUEST_FAILURE = 'FETCH_QUESTIONS_REQUEST_FAILURE';
+
+const CREATE_QUESTION_REQUEST_SUCCESS = 'CREATE_QUESTION_REQUEST_SUCCESS';
 
 let fetchQuestionRequest = () => ({ type: FETCH_QUESTION_REQUEST });
 let fetchQuestionRequestSuccess = ({ answers, question, user }) => ({
@@ -43,8 +46,22 @@ let fetchQuestions = () => dispatch => {
     )
 };
 
+let createQuestionRequestSuccess = ({ answers, question, user }) => ({
+  type: CREATE_QUESTION_REQUEST_SUCCESS,
+  answers,
+  question,
+  user
+});
+let createQuestion = ({ body, title }) => (dispatch, getState) => {
+  let { users: { byId, currentUserId } } = getState();
+  let authenticationToken = byId[currentUserId].authenticationToken;
+  return TrialByWhiteboardRailsApi.createQuestion({ authenticationToken, body, title })
+    .then(data =>  dispatch(createQuestionRequestSuccess(data)))
+};
+
 let byId = (state = {}, action) => {
   switch (action.type) {
+    case CREATE_QUESTION_REQUEST_SUCCESS:
     case FETCH_QUESTION_REQUEST_SUCCESS:
       let question = { [action.question.id]: action.question };
       return Object.assign({}, state, question);
@@ -91,8 +108,10 @@ let questions = combineReducers({
 
 export {
   questions as default,
+  createQuestion,
   fetchQuestion,
   fetchQuestions,
+  CREATE_QUESTION_REQUEST_SUCCESS,
   FETCH_QUESTION_REQUEST_SUCCESS,
   FETCH_QUESTIONS_REQUEST_SUCCESS
 };

@@ -105,7 +105,8 @@ module.exports = function(config) {
       // do not print error summary
       suppressErrorSummary: true,
       // do not print information about tests that are passing
-      suppressPassed: true
+      suppressPassed: true,
+      suppressSkipped: true
     }
   })
 }

@@ -1,0 +1,13 @@
+{
+  "question": {
+    "body": "great question great skill",
+    "id": 1,
+    "title": "my first question",
+    "link": "http://localhost:3000/questions/1",
+    "user": {
+      "id": 1,
+      "username": "dad"
+    },
+    "answers": []
+  }
+}

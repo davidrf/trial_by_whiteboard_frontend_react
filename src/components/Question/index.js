@@ -9,7 +9,7 @@ const Question = ({ answers, id, title, body, user }) => {
     <div>
       <h1>{title}</h1>
       <p>{body}</p>
-      <span>{user.username}</span>
+      <span>{user && user.username}</span>
       <ul>
         {answerElements}
       </ul>
